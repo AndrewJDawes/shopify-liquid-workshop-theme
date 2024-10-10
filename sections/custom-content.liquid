@@ -1,0 +1,70 @@
+<p>{{ section.settings.title }}</p>
+{% for block in section.blocks %}
+  {% case block.type %}
+    {% when 'custom-liquid-block' %}
+      <div {{ block.shopify_attributes }}>
+        <h2>{{ block.settings.title }}</h2>
+        {{ block.settings.liquid }}
+      </div>
+    {% when 'custom-text-block' %}
+      <div {{ block.shopify_attributes }}>
+        <p>{{ block.settings['custom-text-block-field'] }}</p>
+      </div>
+  {% endcase %}
+{% endfor %}
+{% comment %}
+  <ul>
+  {% for tag in product.tags %}
+      <li><a href="/collections/all/{{ tag }}">{{ tag }}</a></li>
+  {% endfor %}
+  </ul>
+{% endcomment %}
+{% schema %}
+{
+  "name": "Custom Content Section",
+  "settings": [
+    {
+      "id": "title",
+      "type": "text",
+      "label": "Custom content heading",
+      "default": "Title"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Custom Content Section"
+    }
+  ],
+  "blocks": [
+    {
+      "name": "Custom Liquid Block",
+      "type": "custom-liquid-block",
+      "settings": [
+        {
+          "id": "title",
+          "type": "text",
+          "label": "Custom Liquid block content heading",
+          "default": "Liquid Block Title"
+        },
+        {
+          "type": "liquid",
+          "id": "liquid",
+          "label": "Custom Liquid",
+          "info": "Add Liquid code to create theme customizations."
+        }
+      ]
+    },
+    {
+      "name": "Custom Text Block",
+      "type": "custom-text-block",
+      "settings": [
+        {
+          "type": "textarea",
+          "id": "custom-text-block-field",
+          "label": "Custom Text Field"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
